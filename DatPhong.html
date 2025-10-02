@@ -2,27 +2,35 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
+  <!-- Giúp giao diện responsive trên mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Booking Demo (Không dùng fallback)</title>
+  <!-- Liên kết file CSS ngoài -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Header của trang -->
   <header>
     <div>
-        <h1>Booking.com</h1>
+        <h1>Booking.com</h1> <!-- Logo / tiêu đề -->
     </div>
+
+    <!-- Thanh trên cùng chứa tab dịch vụ và nút đăng nhập/đăng ký -->
     <div class="container topbar">
+      <!-- Tabs chuyển đổi loại dịch vụ -->
       <div class="tabs" aria-label="Loại dịch vụ">
         <button class="tab active">Stays</button>
         <button class="tab">Flights</button>
         <button class="tab">Car rental</button>
       </div>
+      <!-- Hành động: đăng nhập/đăng ký -->
       <div class="actions">
         <button class="btn" onclick="location.href='btlnhom.html'">Đăng nhập</button>
         <button class="btn" onclick="location.href='btlnhom.html'">Đăng ký</button>
-        </div>
+      </div>
     </div>
 
+    <!-- Khu vực tìm kiếm -->
     <div class="container">
       <div class="search-wrap" role="search">
         <div class="field">
@@ -41,6 +49,7 @@
           <label>Người lớn / Trẻ em</label>
           <input type="text" placeholder="2 người lớn - 1 trẻ em" />
         </div>
+        <!-- Nút tìm kiếm -->
         <div class="search-btn">
           <button class="btn primary">Search</button>
         </div>
@@ -48,52 +57,64 @@
     </div>
   </header>
 
+  <!-- Nội dung chính: danh sách phòng sẽ hiển thị ở đây -->
   <main class="container">
     <section id="room-list" class="room-list" aria-label="Danh sách phòng">
       <!-- JS sẽ render các thẻ phòng ở đây -->
     </section>
   </main>
 
+  <!-- Script JS xử lý dữ liệu phòng -->
   <script>
+    // Hàm định dạng giá tiền sang VNĐ
     function formatVND(n){
       try { return Number(n).toLocaleString('vi-VN', { style:'currency', currency:'VND' }); }
       catch(e){ return n + ' VND'; }
     }
 
+    // Hàm hiển thị danh sách phòng (rooms) ra HTML
     function renderRooms(rooms){
-      const wrap = document.getElementById('room-list');
-      wrap.innerHTML = '';
+      const wrap = document.getElementById('room-list'); // nơi chứa danh sách phòng
+      wrap.innerHTML = ''; // reset nội dung trước
       rooms.forEach(r => {
-        const card = document.createElement('article');
+        const card = document.createElement('article'); // mỗi phòng là 1 thẻ article
         card.className = 'room-card';
         card.innerHTML = `
-          <div class="image${r.image ? ' has-image' : ''}" ${r.image ? `style="background-image:url('${r.image}');"` : ''} role="img" aria-label="${r.title || 'Phòng'}">
+          <div class="image${r.image ? ' has-image' : ''}" 
+               ${r.image ? `style="background-image:url('${r.image}');"` : ''} 
+               role="img" aria-label="${r.title || 'Phòng'}">
             <span>Phòng</span>
           </div>
           <h3>${r.title || 'Phòng'}</h3>
           <p class="price">${r.price ? formatVND(r.price) : ''}</p>
           <div class="card-actions">
             <button class="btn primary">Đặt chỗ</button>
-            <span class="badge ${r.availability ? 'success' : 'danger'}">${r.availability ? 'Trống' : 'Hết'}</span>
+            <span class="badge ${r.availability ? 'success' : 'danger'}">
+              ${r.availability ? 'Trống' : 'Hết'}
+            </span>
           </div>
         `;
-        wrap.appendChild(card);
+        wrap.appendChild(card); // thêm thẻ phòng vào danh sách
       });
     }
 
+    // Hàm load dữ liệu từ file rooms.json
     async function loadRooms(){
       try{
+        // Fetch dữ liệu JSON (không dùng cache)
         const res = await fetch('rooms.json', { cache: 'no-store' });
         if (!res.ok) throw new Error('Không tìm thấy rooms.json');
-        const data = await res.json();
-        renderRooms(data.rooms || []);
+        const data = await res.json(); // đọc dữ liệu JSON
+        renderRooms(data.rooms || []); // render danh sách phòng
       }catch(err){
         console.error('Lỗi nạp dữ liệu:', err);
+        // Hiển thị thông báo lỗi nếu không load được
         document.getElementById('room-list').innerHTML =
           '<p>Không tải được dữ liệu phòng. Hãy đảm bảo đang chạy qua server cục bộ và có file <code>rooms.json</code>.</p>';
       }
     }
 
+    // Khi trang load xong thì gọi loadRooms()
     document.addEventListener('DOMContentLoaded', loadRooms);
   </script>
 </body>
