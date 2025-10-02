@@ -1,78 +1,202 @@
+/* Tiêu đề h1 lệch sang phải */
 h1{
-  margin-left: 140px;;
+  margin-left: 140px;
 }
-:root{
-  --brand:#1f6fb2;
-  --brand-2:#195b91;
-  --card:#ffffff;
-  --muted:#e5e7eb;
-  --text:#111827;
-  --bg:#f6f7fb;
-  --ok:#16a34a;
-  --bad:#dc2626;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
-.container{max-width:1100px;margin:0 auto;padding:16px}
 
+/* Biến CSS (custom properties) để dễ đổi theme */
+:root{
+  --brand:#1f6fb2;    /* màu thương hiệu chính */
+  --brand-2:#195b91;  /* màu thương hiệu phụ */
+  --card:#ffffff;     /* màu nền card */
+  --muted:#e5e7eb;    /* màu viền nhạt */
+  --text:#111827;     /* màu chữ chính */
+  --bg:#f6f7fb;       /* màu nền trang */
+  --ok:#16a34a;       /* màu trạng thái OK (xanh lá) */
+  --bad:#dc2626;      /* màu trạng thái BAD (đỏ) */
+}
+
+/* Reset box-sizing để tính cả padding + border trong width/height */
+*{box-sizing:border-box}
+
+/* Cấu hình chung cho body */
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* Container cố định chiều rộng tối đa */
+.container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:16px;
+}
+
+/* HEADER */
 header{
   background:var(--brand);
   color:#fff;
   padding:14px 0;
-  box-shadow:0 2px 8px rgba(0,0,0,.12);
+  box-shadow:0 2px 8px rgba(0,0,0,.12); /* bóng nhẹ */
 }
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.tabs{display:flex;gap:10px}
+
+/* Thanh topbar: chứa tab và actions */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+/* Tabs: các nút chuyển đổi dịch vụ */
+.tabs{
+  display:flex;
+  gap:10px;
+}
 .tab{
   background:rgba(255,255,255,.2);
-  border:none;color:#fff;padding:10px 16px;border-radius:999px;cursor:pointer;
+  border:none;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:999px;  /* làm tròn thành pill */
+  cursor:pointer;
 }
-.tab.active{background:#fff;color:var(--brand);font-weight:600}
+.tab.active{
+  background:#fff;
+  color:var(--brand);
+  font-weight:600;
+}
+
+/* Actions: nhóm nút đăng nhập/đăng ký */
 .actions{display:flex;gap:10px}
 
+/* BUTTONS */
 .btn{
-  border:none;border-radius:10px;padding:10px 14px;cursor:pointer;background:#fff;color:var(--brand);font-weight:600;
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  cursor:pointer;
+  background:#fff;
+  color:var(--brand);
+  font-weight:600;
 }
-.btn.primary{background:var(--brand);color:#fff}
-.btn:disabled{opacity:.6;cursor:not-allowed}
+.btn.primary{
+  background:var(--brand);
+  color:#fff;
+}
+.btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
 
-/* Search bar */
+/* SEARCH BAR */
 .search-wrap{
-  background:#fff;border-radius:14px;margin-top:16px;padding:14px;display:grid;gap:10px;
+  background:#fff;
+  border-radius:14px;
+  margin-top:16px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+  /* chia 5 cột: điểm đến rộng hơn */
   grid-template-columns:1.2fr repeat(2, .8fr) .8fr auto;
   box-shadow:0 4px 18px rgba(0,0,0,.08);
 }
-.field{display:flex;flex-direction:column;gap:6px}
-.field label{font-size:12px;color:#374151}
-.field input, .field select{
-  padding:10px 12px;border:1px solid var(--muted);border-radius:10px;background:#fff;outline:none;
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
 }
-.search-btn{align-self:end}
+.field label{
+  font-size:12px;
+  color:#374151;
+}
+.field input, .field select{
+  padding:10px 12px;
+  border:1px solid var(--muted);
+  border-radius:10px;
+  background:#fff;
+  outline:none;
+}
+.search-btn{
+  align-self:end; /* nút Search nằm dưới cùng */
+}
 
-/* Room list */
-.room-list{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px}
+/* ROOM LIST */
+.room-list{
+  display:grid;
+  grid-template-columns:repeat(3,1fr); /* 3 cột */
+  gap:24px;
+  margin-top:28px;
+}
 .room-card{
-  background:var(--card);border-radius:16px;padding:14px;box-shadow:0 6px 16px rgba(0,0,0,.06);
-  display:flex;flex-direction:column;gap:10px
+  background:var(--card);
+  border-radius:16px;
+  padding:14px;
+  box-shadow:0 6px 16px rgba(0,0,0,.06);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 .image{
-  width:100%;aspect-ratio:1/1;border-radius:12px;background:#d1d5db;display:grid;place-items:center;
-  background-size:cover;background-position:center;
-  position:relative;overflow:hidden;
+  width:100%;
+  aspect-ratio:1/1; /* hình vuông */
+  border-radius:12px;
+  background:#d1d5db;
+  display:grid;
+  place-items:center; /* căn chữ ở giữa */
+  background-size:cover;
+  background-position:center;
+  position:relative;
+  overflow:hidden;
 }
-.image span{color:#374151;font-weight:600}
-.image.has-image span{display:none}
-.room-card h3{margin:0;font-size:16px}
-.price{margin:2px 0 8px;color:#374151;font-size:14px}
-.card-actions{display:flex;align-items:center;gap:10px;margin-top:auto}
-.badge{padding:6px 10px;border-radius:10px;font-weight:600;font-size:12px;background:#eee}
-.badge.success{background:rgba(22,163,74,.15);color:var(--ok)}
-.badge.danger{background:rgba(220,38,38,.15);color:var(--bad)}
+.image span{
+  color:#374151;
+  font-weight:600;
+}
+.image.has-image span{
+  display:none; /* nếu có ảnh thì ẩn chữ “Phòng” */
+}
+.room-card h3{
+  margin:0;
+  font-size:16px;
+}
+.price{
+  margin:2px 0 8px;
+  color:#374151;
+  font-size:14px;
+}
+.card-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:auto; /* đẩy xuống cuối card */
+}
 
+/* Badge trạng thái phòng */
+.badge{
+  padding:6px 10px;
+  border-radius:10px;
+  font-weight:600;
+  font-size:12px;
+  background:#eee;
+}
+.badge.success{
+  background:rgba(22,163,74,.15);
+  color:var(--ok);
+}
+.badge.danger{
+  background:rgba(220,38,38,.15);
+  color:var(--bad);
+}
+
+/* Responsive: Tablet */
 @media (max-width:900px){
   .search-wrap{grid-template-columns:1fr 1fr}
   .room-list{grid-template-columns:1fr 1fr}
 }
+
+/* Responsive: Mobile */
 @media (max-width:580px){
   .search-wrap{grid-template-columns:1fr}
   .room-list{grid-template-columns:1fr}
