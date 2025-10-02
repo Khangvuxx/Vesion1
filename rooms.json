@@ -1,7 +1,25 @@
 {
-  "rooms": [
-    { "id": 1, "title": "Phòng tiêu chuẩn", "availability": true,  "image": "images/b.jpg", "price": 450000 },
-    { "id": 2, "title": "Phòng đôi",        "availability": false, "image": "images/a.jpg", "price": 650000 },
-    { "id": 3, "title": "Suite gia đình",   "availability": true,  "image": "images/c.jpg", "price": 1200000 }
+  "rooms": [                         // rooms: mảng (danh sách) các phòng
+    { 
+      "id": 1,                       // id: định danh phòng (số thứ tự duy nhất)
+      "title": "Phòng tiêu chuẩn",   // title: tên phòng hiển thị
+      "availability": true,          // availability: trạng thái phòng (true = còn trống, false = hết)
+      "image": "images/b.jpg",       // image: đường dẫn tới ảnh minh họa phòng
+      "price": 450000                // price: giá phòng (tính bằng VND)
+    },
+    { 
+      "id": 2,
+      "title": "Phòng đôi",
+      "availability": false,         // false = phòng đã hết
+      "image": "images/a.jpg",
+      "price": 650000
+    },
+    { 
+      "id": 3,
+      "title": "Suite gia đình",
+      "availability": true,          // true = phòng còn trống
+      "image": "images/c.jpg",
+      "price": 1200000
+    }
   ]
 }
