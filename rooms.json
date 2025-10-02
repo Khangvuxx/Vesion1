@@ -1,0 +1,7 @@
+{
+  "rooms": [
+    { "id": 1, "title": "Phòng tiêu chuẩn", "availability": true,  "image": "images/b.jpg", "price": 450000 },
+    { "id": 2, "title": "Phòng đôi",        "availability": false, "image": "images/a.jpg", "price": 650000 },
+    { "id": 3, "title": "Suite gia đình",   "availability": true,  "image": "images/c.jpg", "price": 1200000 }
+  ]
+}
