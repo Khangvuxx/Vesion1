@@ -1,20 +1,29 @@
+/* Reset CSS: bỏ margin, padding mặc định và tính kích thước theo border-box */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Định dạng cho phần tử có class .img */
 .img {
   width: 700px;
 }
+
+/* Định dạng cho tất cả thẻ <img> */
 img {
-  width: 100%;
-  height: 100vh;
-  object-fit: cover;
+  width: 100%;       /* Chiều rộng full container */
+  height: 100vh;     /* Chiều cao bằng 100% chiều cao màn hình */
+  object-fit: cover; /* Ảnh lấp đầy mà không bị méo */
 }
+
+/* Container hiển thị theo hàng ngang (flex) và có khoảng cách 50px */
 .container {
   display: flex;
   gap: 50px;
 }
+
+/* Khối chứa form: sắp xếp cột, căn giữa và có khoảng cách 20px */
 .form {
   display: flex;
   flex-direction: column;
@@ -22,11 +31,15 @@ img {
   justify-content: center;
   align-items: center;
 }
+
+/* Thẻ form chiếm toàn màn hình theo chiều cao */
 form {
   width: 100%;
   height: 100vh;
   text-align: center;
 }
+
+/* Tiêu đề h1 căn giữa, màu xanh, cách lề trên/dưới */
 h1 {
   text-align: center;
   margin-top: 50px;
@@ -35,9 +48,12 @@ h1 {
   margin-bottom: 50px;
 }
 
+/* Nhóm form (input + label) có margin dưới */
 .form-group {
   margin-bottom: 20px;
 }
+
+/* Input cơ bản: chiều rộng, cao, bo tròn góc, padding */
 input {
   width: 300px;
   height: 40px;
@@ -45,6 +61,8 @@ input {
   border: 1px solid gray;
   padding: 10px;
 }
+
+/* Nút bấm cơ bản: màu nền xanh, chữ trắng, bo góc */
 button {
   width: 150px;
   height: 40px;
@@ -55,6 +73,8 @@ button {
   font-size: 16px;
   cursor: pointer;
 }
+
+/* Hiệu ứng hover: chuyển màu xanh đậm, phóng to nhẹ */
 button:hover {
   background-color: darkblue;
   transition: 0.3s ease-in-out;
