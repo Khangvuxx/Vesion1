@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thanh toán</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.boxicons.com/3.0.3/fonts/basic/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #1a1a2e;
+        --secondary: #16213e;
+        --accent: #e94560;
+        --light: #f9f9f9;
+        --gold: #d4af37;
+        --transition: all 0.4s ease;
+        --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: var(--light);
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Playfair Display", serif;
+        font-weight: 600;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Header */
+      header {
+        background-color: rgba(58, 58, 241);
+        color: white;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        transition: var(--transition);
+      }
+
+      header.scrolled {
+        background-color: rgb(58, 58, 241);
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        align-items: center;
+      }
+
+      .nav-links li {
+        margin-left: 30px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
+        font-size: 15px;
+      }
+      .nav-links a span {
+        color: black;
+      }
+
+      .nav-links a:hover {
+        color: var(--gold);
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--gold);
+        transition: var(--transition);
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* CSS CHO USER MENU */
+      .user-menu {
+        position: relative;
+      }
+
+      .user-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        transition: var(--transition);
+      }
+
+      .user-avatar:hover {
+        border-color: var(--gold);
+        transform: scale(1.05);
+      }
+
+      .user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        border-radius: 10px;
+        box-shadow: var(--shadow-hover);
+        min-width: 180px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: var(--transition);
+        z-index: 1001;
+      }
+
+      .dropdown-menu.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-menu::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        right: 20px;
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid white;
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: var(--primary);
+        text-decoration: none;
+        transition: var(--transition);
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .dropdown-item:last-child {
+        border-bottom: none;
+      }
+
+      .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: var(--accent);
+      }
+
+      .dropdown-item i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .menu-toggle {
+        display: none;
+        cursor: pointer;
+        font-size: 24px;
+      }
+
+      /* Payment Section */
+      .section {
+        padding: 150px 0 100px;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .section-title h2 {
+        font-size: 2.5rem;
+        color: var(--primary);
+        position: relative;
+        display: inline-block;
+        margin-bottom: 15px;
+      }
+
+      .section-title h2::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: var(--accent);
+      }
+
+      .payment-content {
+        display: flex;
+        gap: 50px;
+        flex-wrap: wrap;
+      }
+
+      .payment-form {
+        flex: 1;
+        min-width: 300px;
+        background-color: white;
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      .form-section {
+        margin-bottom: 25px;
+      }
+
+      .form-section h3 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: var(--primary);
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--primary);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-family: "Montserrat", sans-serif;
+        transition: var(--transition);
+      }
+
+      .form-control:focus {
+        border-color: var(--accent);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.2);
+      }
+
+      .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .radio-option {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: var(--transition);
+        cursor: pointer;
+      }
+
+      .radio-option:hover {
+        border-color: var(--accent);
+        background-color: rgba(233, 69, 96, 0.05);
+      }
+
+      .radio-option input {
+        margin-right: 10px;
+        transform: scale(1.2);
+      }
+
+      /* === CSS PHẦN THANH TOÁN THẺ === */
+
+      .card-payment-area {
+        display: none;
+        margin-top: 20px;
+      }
+      .card-payment-area.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .card-preview {
+        max-width: 450px;
+        margin: 0 auto 30px auto;
+        padding: 30px;
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        border-radius: 20px;
+        color: white;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 35px;
+      }
+
+      .card-type {
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+
+      .card-chip {
+        width: 60px;
+        height: 40px;
+        background: linear-gradient(135deg, #ffd700, #ffed4e);
+        border-radius: 6px;
+        position: relative;
+      }
+
+      .card-chip::after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+      }
+
+      .card-number {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+        font-family: "Courier New", monospace;
+      }
+
+      .card-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .card-holder,
+      .card-expiry {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-label {
+        font-size: 0.8rem;
+        opacity: 0.7;
+        margin-bottom: 5px;
+      }
+
+      .card-info {
+        font-size: 1rem;
+        font-weight: 600;
+        min-height: 1.2em;
+      }
+
+      .card-form-inputs .form-group label {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 6px;
+      }
+
+      .card-form-row {
+        display: flex;
+        gap: 15px;
+      }
+
+      .card-form-row .form-group {
+        flex: 1;
+      }
+
+      /* === CSS CHO KHU VỰC CHUYỂN KHOẢN === */
+      .transfer-wrapper {
+        display: flex;
+        gap: 30px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+      }
+
+      .transfer-qr,
+      .transfer-manual {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .transfer-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 8px;
+      }
+
+      .transfer-wrapper p {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 15px;
+      }
+
+      .qr-code-img {
+        width: 100%;
+        max-width: 250px;
+        height: auto;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin: 0 auto 15px auto;
+        display: block;
+      }
+
+      .qr-details {
+        font-size: 0.95rem;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        padding: 15px;
+      }
+      .qr-details div {
+        margin-bottom: 8px;
+      }
+      .qr-details div:last-child {
+        margin-bottom: 0;
+      }
+      .qr-details strong {
+        color: var(--accent);
+      }
+
+      .manual-info-list {
+        list-style: none;
+        font-size: 1rem;
+      }
+
+      .manual-info-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px dotted #ccc;
+      }
+
+      .manual-info-list li span {
+        color: #666;
+      }
+
+      .manual-info-list li strong {
+        color: #333;
+        text-align: right;
+      }
+
+      /* === CSS CHO XÁC NHẬN TIỀN MẶT (CHỐNG BOOM) === */
+      #cash-confirmation-area {
+        display: none; /* Ẩn ban đầu */
+        margin-top: 15px;
+        animation: fadeIn 0.5s ease;
+      }
+      #cash-confirmation-area.active {
+        display: block; /* Hiện khi được chọn */
+      }
+      #cash-confirmation-area .radio-option {
+        border-color: #ddd;
+        background-color: #f9f9f9;
+      }
+
+      /* === CSS PHẦN TÓM TẮT ĐƠN HÀNG === */
+      .order-summary {
+        flex: 0 0 350px;
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        height: fit-content;
+      }
+
+      .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .room-count {
+        background-color: var(--accent);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      /* === CSS MỚI CHO GIỎ HÀNG ĐỘNG === */
+      .order-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .order-item.cancelled {
+        opacity: 0.6;
+        background-color: #f8f8f8;
+        text-decoration: line-through;
+      }
+
+      .order-item.removing {
+        transform: translateX(-100%);
+        opacity: 0;
+        height: 0;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      /* Ẩn các <hr> cũ */
+      .order-summary hr {
+        display: none;
+      }
+
+      .order-items-container .order-item:last-child {
+        border-bottom: none;
+      }
+
+      .item-details {
+        flex: 1;
+      }
+
+      .room-name {
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+
+      .room-meta {
+        display: flex;
+        gap: 15px;
+        font-size: 0.9rem;
+      }
+
+      .room-price {
+        font-weight: bold;
+        color: var(--accent);
+      }
+
+      .room-quantity {
+        color: #666;
+      }
+
+      .booking-status {
+        font-size: 0.8rem;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-weight: 500;
+      }
+
+      .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+
+      .status-confirmed {
+        background-color: #d1edff;
+        color: #0c5460;
+      }
+
+      .status-cancelled {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      .remove-item-btn {
+        background-color: #f1f1f1;
+        color: #999;
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-left: 15px;
+        line-height: 30px;
+      }
+
+      .remove-item-btn:hover {
+        background-color: var(--accent);
+        color: white;
+      }
+
+      /* === CSS MỚI CHO CHI TIẾT TỔNG CỘNG === */
+      .order-breakdown {
+        padding: 15px 0;
+        border-top: 1px solid #eee;
+      }
+
+      .breakdown-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.95rem;
+        color: #555;
+        margin-bottom: 10px;
+      }
+      .breakdown-row:last-child {
+        margin-bottom: 0;
+      }
+      .breakdown-row span:last-child {
+        font-weight: 500;
+        color: #333;
+      }
+
+      .order-total {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 2px solid var(--primary);
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: var(--accent);
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+      }
+
+      .btn:hover {
+        background-color: var(--gold);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      /* Ẩn <hr> cuối cùng trước nút */
+      .payment-form > hr {
+        margin: 20px 0;
+        border: none;
+        border-top: 1px solid #eee;
+        display: block;
+      }
+
+      .payment-form .message {
+        margin-bottom: 15px;
+        padding: 12px;
+        border-radius: 5px;
+        display: none;
+        text-align: center;
+        font-weight: 500;
+      }
+      .message-success {
+        background-color: #d4edda;
+        color: #155724;
+        display: block !important;
+      }
+      .message-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        display: block !important;
+      }
+      .message-loading {
+        background-color: #e2e3e5;
+        color: #383d41;
+        display: block !important;
+      }
+
+      /* Modal hủy phòng */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+      }
+
+      .modal h3 {
+        margin-bottom: 15px;
+        color: var(--primary);
+      }
+
+      .modal p {
+        margin-bottom: 20px;
+        color: #666;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .modal-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .modal-btn.confirm {
+        background-color: var(--accent);
+        color: white;
+      }
+
+      .modal-btn.confirm:hover {
+        background-color: #d13454;
+      }
+
+      .modal-btn.cancel {
+        background-color: #6c757d;
+        color: white;
+      }
+
+      .modal-btn.cancel:hover {
+        background-color: #5a6268;
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--primary);
+        color: white;
+        padding: 70px 0 20px;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 50px;
+      }
+
+      .footer-column h3 {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-column h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background-color: var(--accent);
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 12px;
+      }
+
+      .footer-links a {
+        color: #bbb;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+        padding-left: 5px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .social-links a:hover {
+        background-color: var(--accent);
+        transform: translateY(-5px);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #bbb;
+        font-size: 0.9rem;
+      }
+
+      /* Back to top button */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background-color: var(--accent);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+        z-index: 999;
+      }
+
+      .back-to-top.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .back-to-top:hover {
+        background-color: var(--gold);
+        transform: translateY(-5px);
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .payment-content {
+          flex-direction: column;
+        }
+
+        .order-summary {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+
+        .nav-links {
+          position: fixed;
+          top: 80px;
+          left: 0;
+          width: 100%;
+          background-color: var(--primary);
+          flex-direction: column;
+          align-items: center;
+          padding: 20px 0;
+          transform: translateY(-100%);
+          opacity: 0;
+          transition: var(--transition);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links.active {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .nav-links li {
+          margin: 15px 0;
+        }
+
+        .section {
+          padding: 120px 0 70px;
+        }
+
+        .payment-form {
+          padding: 25px;
+        }
+
+        .card-form-row {
+          flex-direction: column;
+          gap: 0;
+        }
+
+        .transfer-wrapper {
+          flex-direction: column;
+        }
+
+        .user-menu {
+          margin-top: 15px;
+        }
+
+        .modal-buttons {
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .section-title h2 {
+          font-size: 2rem;
+        }
+
+        .order-summary {
+          padding: 20px;
+        }
+
+        .card-number {
+          font-size: 1.1rem;
+          letter-spacing: 1px;
+        }
+      }
+      .section-title h2 {
+        font-size: 40px;
+        color: #2b7a78;
+        margin-bottom: 15px;
+      }
+
+      .section-title h2 i {
+        color: black;
+        font-size: 48px;
+        background: #def2f1;
+        border-radius: 50%;
+        padding: 12px;
+        box-shadow: 0 3px 8px rgba(58, 175, 169, 0.3);
+      }
+
+      .section-title p {
+        font-size: 18px;
+        color: #555;
+        line-height: 1.6;
+        margin-top: 10px;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <div class="container">
+        <nav class="navbar">
+          <a href="#" class="logo">Booking.com</a>
+          <div class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+          </div>
+          <ul class="nav-links" id="nav-links">
+            <li><a href="/TrangChu">Trang chủ</a></li>
+            <li><a href="/GioiThieu">Giới thiệu</a></li>
+            <li><a href="/phongdoi">Phòng đôi</a></li>
+            <li><a href="/phongdon">Phòng đơn</a></li>
+            <li><a href="/SaleRooms">Phòng Sale</a></li>
+            <li><a href="/tiennghi">Tiện nghi</a></li>
+            <li><a href="/ThanhToan">Thanh Toán</a></li>
+            <li><a href="/Lienhe">Liên hệ</a></li>
+            <li class="user-menu">
+              <div class="user-avatar" id="user-avatar">
+                <img
+                  src="https://randomuser.me/api/portraits/men/32.jpg"
+                  alt="User Avatar"
+                />
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu">
+                <a href="/TTCN" class="dropdown-item">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Tài khoản</span>
+                </a>
+                <a href="#" class="dropdown-item">
+                  <i class="fas fa-cog"></i>
+                  <span>Cài đặt</span>
+                </a>
+                <a href="/logout" class="dropdown-item" id="logout-link">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span>Đăng xuất</span>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Modal xác nhận hủy phòng -->
+    <div id="cancelModal" class="modal">
+      <div class="modal-content">
+        <h3>Xác nhận hủy phòng</h3>
+        <p id="modalMessage">Bạn có chắc chắn muốn hủy phòng này?</p>
+        <div
+          class="cancellation-details"
+          id="cancellationDetails"
+          style="
+            text-align: left;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+          "
+        >
+          <h4>Chi tiết hủy phòng:</h4>
+          <div id="refundAmount">Phí hủy phòng: 0 VNĐ</div>
+          <div id="cancellationFee">Phí hủy: 0 VNĐ</div>
+          <div id="totalRefund" style="font-weight: bold; margin-top: 10px">
+            Số tiền hoàn lại: 0 VNĐ
+          </div>
+        </div>
+        <div class="modal-buttons">
+          <button class="modal-btn confirm" id="confirmCancel">
+            Xác nhận hủy
+          </button>
+          <button class="modal-btn cancel" id="cancelCancel">Quay lại</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" id="payment">
+      <div class="container">
+        <div class="section-title">
+          <h2><i class="bxr bx-wallet-note"></i></h2>
+          <p>Quản lý và thanh toán các phòng bạn đã đặt</p>
+        </div>
+        <div class="payment-content">
+          <div class="payment-form">
+            <div class="form-section">
+              <h3>Thông tin khách hàng</h3>
+              <div class="form-group">
+                <label for="fullname">Họ tên</label>
+                <input
+                  type="text"
+                  id="fullname"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="gender">Giới tính</label>
+                <input type="text" id="gender" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label for="address">Địa chỉ</label>
+                <input type="text" id="address" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">Điện thoại</label>
+                <input type="tel" id="phone" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label for="idcard">CMND/CCCD</label>
+                <input type="text" id="idcard" class="form-control" required />
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>Hình thức thanh toán</h3>
+              <div class="radio-group">
+                <div class="radio-option">
+                  <input type="radio" id="cash" name="payment" />
+                  <label for="cash">Tiền mặt</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" id="transfer" name="payment" />
+                  <label for="transfer">Chuyển khoản</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" id="card" name="payment" checked />
+                  <label for="card">Thẻ tín dụng/ghi nợ</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Các phần thanh toán khác giữ nguyên -->
+            <div class="card-payment-area active" id="cardPaymentArea">
+              <!-- Nội dung thanh toán thẻ giữ nguyên -->
+            </div>
+
+            <div class="card-payment-area" id="transferPaymentArea">
+              <!-- Nội dung chuyển khoản giữ nguyên -->
+            </div>
+
+            <div class="form-group" id="cash-confirmation-area">
+              <label class="radio-option" for="cash-confirm-check">
+                <input type="checkbox" id="cash-confirm-check" />
+                <span
+                  style="margin-left: 10px; font-size: 0.9rem; line-height: 1.4"
+                >
+                  Tôi xác nhận đặt phòng và đồng ý thanh toán toàn bộ chi phí
+                  khi nhận phòng.
+                </span>
+              </label>
+            </div>
+            <div id="payment-message" class="message"></div>
+
+            <hr />
+            <button type="submit" class="btn" id="submit-button">
+              Xác nhận thanh toán
+            </button>
+          </div>
+
+          <div class="order-summary">
+            <div class="order-header">
+              <h3>Phòng đã đặt</h3>
+              <span class="room-count" id="room-count-badge">0 phòng</span>
+            </div>
+
+            <div class="order-items-container" id="bookedRoomsContainer">
+              <!-- Các phòng đã đặt sẽ được load ở đây -->
+              <div
+                class="loading-message"
+                style="text-align: center; padding: 20px; color: #666"
+              >
+                Đang tải danh sách phòng đã đặt...
+              </div>
+            </div>
+
+            <div class="order-breakdown">
+              <div class="breakdown-row">
+                <span>Tạm tính</span>
+                <span id="order-subtotal">0₫</span>
+              </div>
+              <div class="breakdown-row">
+                <span>Thuế (10% VAT)</span>
+                <span id="order-tax">0₫</span>
+              </div>
+              <div class="breakdown-row">
+                <span>Phí dịch vụ (5%)</span>
+                <span id="order-service-fee">0₫</span>
+              </div>
+            </div>
+
+            <div class="order-total">
+              <span>Tổng cộng:</span>
+              <span id="order-total-price">0₫</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <!-- Footer giữ nguyên -->
+    </footer>
+
+    <script>
+      // =============================================
+      // BIẾN TOÀN CỤC
+      // =============================================
+      let currentBookings = [];
+      let currentCancellingBooking = null;
+
+      // =============================================
+      // HÀM TẢI DANH SÁCH PHÒNG ĐÃ ĐẶT
+      // =============================================
+      async function loadBookedRooms() {
+        try {
+          const response = await fetch("/api/my-bookings");
+          const data = await response.json();
+
+          if (response.ok) {
+            currentBookings = data.bookings || [];
+            renderBookedRooms();
+          } else {
+            showMessage("Không thể tải danh sách phòng đã đặt", "error");
+          }
+        } catch (error) {
+          console.error("Lỗi tải danh sách phòng:", error);
+          showMessage("Lỗi kết nối máy chủ", "error");
+        }
+      }
+
+      // =============================================
+      // HÀM HIỂN THỊ PHÒNG ĐÃ ĐẶT
+      // =============================================
+      function renderBookedRooms() {
+        const container = document.getElementById("bookedRoomsContainer");
+        if (!container) return;
+
+        if (currentBookings.length === 0) {
+          container.innerHTML = `
+              <div style="text-align: center; padding: 40px; color: #666;">
+                <i class="fas fa-bed" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                <p>Bạn chưa đặt phòng nào</p>
+              </div>
+            `;
+          updateOrderSummary();
+          return;
+        }
+
+        let html = "";
+        let hasActiveBookings = false;
+
+        currentBookings.forEach((booking) => {
+          booking.rooms.forEach((room) => {
+            const statusClass = getStatusClass(booking.status);
+            const nights = calculateNights(
+              booking.check_in_date,
+              booking.check_out_date
+            );
+            const totalPrice =
+              room.total_price || room.price_per_night * nights;
+
+            // Chỉ hiển thị booking chưa bị hủy
+            if (booking.status !== "cancelled") {
+              hasActiveBookings = true;
+            }
+
+            html += `
+                <div class="order-item ${
+                  booking.status === "cancelled" ? "cancelled" : ""
+                }" 
+                     data-booking-id="${booking.id}" 
+                     data-room-id="${room.room_id}" 
+                     data-total-price="${totalPrice}"
+                     data-status="${booking.status}">
+                  <div class="item-details">
+                    <div class="room-name">${
+                      room.room_type_name || "Phòng"
+                    }</div>
+                    <div class="room-meta">
+                      <span class="room-price">${formatCurrency(
+                        totalPrice
+                      )}</span>
+                      <span class="room-quantity">${nights} đêm</span>
+                      <span class="booking-status ${statusClass}">${getStatusText(
+              booking.status
+            )}</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                      ${formatDate(booking.check_in_date)} → ${formatDate(
+              booking.check_out_date
+            )}
+                    </div>
+                    <div style="font-size: 0.8rem; color: #666;">
+                      Mã đặt: ${booking.booking_reference}
+                    </div>
+                  </div>
+                  ${
+                    booking.status === "pending" ||
+                    booking.status === "confirmed"
+                      ? `
+                    <button class="remove-item-btn" onclick="showCancelModal(${booking.id}, ${room.room_id}, ${totalPrice})" aria-label="Hủy phòng">
+                      &times;
+                    </button>
+                  `
+                      : ""
+                  }
+                </div>
+              `;
+          });
+        });
+
+        // Nếu không có booking active, hiển thị thông báo
+        if (!hasActiveBookings) {
+          html = `
+            <div style="text-align: center; padding: 40px; color: #666;">
+              <i class="fas fa-bed" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+              <p>Bạn chưa có phòng nào đang hoạt động</p>
+              <p style="font-size: 0.9rem; margin-top: 10px;">Các phòng đã hủy sẽ không hiển thị ở đây</p>
+            </div>
+          `;
+        }
+
+        container.innerHTML = html;
+        updateOrderSummary();
+      }
+
+      // =============================================
+      // HÀM XÓA PHÒNG KHỎI GIAO DIỆN (HIỆU ỨNG)
+      // =============================================
+      function removeBookingFromUI(bookingId) {
+        const bookingElements = document.querySelectorAll(
+          `[data-booking-id="${bookingId}"]`
+        );
+
+        bookingElements.forEach((element) => {
+          // Thêm class để tạo hiệu ứng biến mất
+          element.classList.add("removing");
+
+          // Sau khi hiệu ứng hoàn tất, xóa phần tử khỏi DOM
+          setTimeout(() => {
+            element.remove();
+
+            // Kiểm tra xem còn booking nào không
+            const remainingBookings = document.querySelectorAll(
+              ".order-item:not(.removing)"
+            );
+            if (remainingBookings.length === 0) {
+              renderBookedRooms(); // Reload để hiển thị thông báo "không có phòng"
+            } else {
+              updateOrderSummary(); // Cập nhật tổng tiền
+            }
+          }, 300);
+        });
+      }
+
+      // =============================================
+      // HÀM HỖ TRỢ
+      // =============================================
+      function getStatusClass(status) {
+        switch (status) {
+          case "pending":
+            return "status-pending";
+          case "confirmed":
+            return "status-confirmed";
+          case "cancelled":
+            return "status-cancelled";
+          default:
+            return "status-pending";
+        }
+      }
+
+      function getStatusText(status) {
+        switch (status) {
+          case "pending":
+            return "Chờ xác nhận";
+          case "confirmed":
+            return "Đã xác nhận";
+          case "cancelled":
+            return "Đã hủy";
+          default:
+            return status;
+        }
+      }
+
+      function calculateNights(checkin, checkout) {
+        const checkinDate = new Date(checkin);
+        const checkoutDate = new Date(checkout);
+        return Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("vi-VN");
+      }
+
+      function formatCurrency(number) {
+        return new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(number);
+      }
+
+      // =============================================
+      // HÀM CẬP NHẬT TỔNG TIỀN
+      // =============================================
+      function updateOrderSummary() {
+        // Chỉ tính các booking chưa bị hủy
+        const activeBookings = currentBookings.filter(
+          (booking) => booking.status !== "cancelled"
+        );
+
+        let subTotalPrice = 0;
+        activeBookings.forEach((booking) => {
+          booking.rooms.forEach((room) => {
+            const nights = calculateNights(
+              booking.check_in_date,
+              booking.check_out_date
+            );
+            const totalPrice =
+              room.total_price || room.price_per_night * nights;
+            subTotalPrice += totalPrice;
+          });
+        });
+
+        const taxRate = 0.1;
+        const serviceFeeRate = 0.05;
+        const taxAmount = subTotalPrice * taxRate;
+        const serviceFeeAmount = subTotalPrice * serviceFeeRate;
+        const finalTotalPrice = subTotalPrice + taxAmount + serviceFeeAmount;
+
+        // Cập nhật UI
+        document.getElementById("order-subtotal").textContent =
+          formatCurrency(subTotalPrice);
+        document.getElementById("order-tax").textContent =
+          formatCurrency(taxAmount);
+        document.getElementById("order-service-fee").textContent =
+          formatCurrency(serviceFeeAmount);
+        document.getElementById("order-total-price").textContent =
+          formatCurrency(finalTotalPrice);
+
+        const totalRooms = activeBookings.reduce(
+          (total, booking) => total + booking.rooms.length,
+          0
+        );
+        document.getElementById(
+          "room-count-badge"
+        ).textContent = `${totalRooms} phòng`;
+
+        // Cập nhật QR code và thông tin chuyển khoản
+        updatePaymentInfo(finalTotalPrice);
+      }
+
+      function updatePaymentInfo(totalAmount) {
+        // Cập nhật số tiền trong QR code và chuyển khoản
+        const qrAmount = document.getElementById("qr-amount");
+        const manualAmount = document.getElementById("manual-amount");
+
+        if (qrAmount) qrAmount.textContent = formatCurrency(totalAmount);
+        if (manualAmount)
+          manualAmount.textContent = formatCurrency(totalAmount);
+      }
+
+      // =============================================
+      // HÀM XỬ LÝ HỦY PHÒNG
+      // =============================================
+      function showCancelModal(bookingId, roomId, totalPrice) {
+        currentCancellingBooking = { bookingId, roomId, totalPrice };
+
+        // Tính phí hủy (30% nếu hủy trong vòng 24h, 50% nếu hủy sau 24h)
+        const cancellationFeeRate = 0.3; // 30%
+        const cancellationFee = totalPrice * cancellationFeeRate;
+        const refundAmount = totalPrice - cancellationFee;
+
+        // Cập nhật thông tin modal
+        document.getElementById("modalMessage").textContent =
+          "Bạn có chắc chắn muốn hủy phòng này?";
+        document.getElementById(
+          "refundAmount"
+        ).textContent = `Tổng tiền phòng: ${formatCurrency(totalPrice)}`;
+        document.getElementById(
+          "cancellationFee"
+        ).textContent = `Phí hủy (30%): ${formatCurrency(cancellationFee)}`;
+        document.getElementById(
+          "totalRefund"
+        ).textContent = `Số tiền hoàn lại: ${formatCurrency(refundAmount)}`;
+
+        // Hiển thị modal
+        document.getElementById("cancelModal").style.display = "flex";
+      }
+
+      async function confirmCancelBooking() {
+        if (!currentCancellingBooking) return;
+
+        try {
+          showMessage("Đang xử lý hủy phòng...", "loading");
+
+          const response = await fetch(
+            `/api/cancel-booking/${currentCancellingBooking.bookingId}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            showMessage("Hủy phòng thành công!", "success");
+
+            // CẬP NHẬT QUAN TRỌNG: Cập nhật trạng thái trong currentBookings
+            const bookingIndex = currentBookings.findIndex(
+              (booking) => booking.id === currentCancellingBooking.bookingId
+            );
+
+            if (bookingIndex !== -1) {
+              currentBookings[bookingIndex].status = "cancelled";
+            }
+
+            // Xóa khỏi giao diện ngay lập tức với hiệu ứng
+            removeBookingFromUI(currentCancellingBooking.bookingId);
+          } else {
+            showMessage(data.error || "Lỗi khi hủy phòng", "error");
+          }
+        } catch (error) {
+          console.error("Lỗi hủy phòng:", error);
+          showMessage("Lỗi kết nối máy chủ", "error");
+        } finally {
+          closeCancelModal();
+        }
+      }
+
+      function closeCancelModal() {
+        document.getElementById("cancelModal").style.display = "none";
+        currentCancellingBooking = null;
+      }
+
+      // =============================================
+      // HÀM HIỂN THỊ THÔNG BÁO
+      // =============================================
+      function showMessage(text, type) {
+        const messageDiv = document.getElementById("payment-message");
+        if (!messageDiv) return;
+
+        messageDiv.textContent = text;
+        messageDiv.className = "message";
+        if (type === "success") {
+          messageDiv.classList.add("message-success");
+        } else if (type === "error") {
+          messageDiv.classList.add("message-error");
+        } else if (type === "loading") {
+          messageDiv.classList.add("message-loading");
+        }
+
+        // Tự động ẩn thông báo sau 5 giây
+        setTimeout(() => {
+          messageDiv.className = "message";
+          messageDiv.textContent = "";
+        }, 5000);
+      }
+
+      // =============================================
+      // KHỞI TẠO KHI TRANG LOAD
+      // =============================================
+      document.addEventListener("DOMContentLoaded", function () {
+        // Load danh sách phòng đã đặt
+        loadBookedRooms();
+
+        // Event listeners cho modal hủy phòng
+        document
+          .getElementById("confirmCancel")
+          .addEventListener("click", confirmCancelBooking);
+        document
+          .getElementById("cancelCancel")
+          .addEventListener("click", closeCancelModal);
+
+        // Đóng modal khi click bên ngoài
+        document
+          .getElementById("cancelModal")
+          .addEventListener("click", function (e) {
+            if (e.target === this) {
+              closeCancelModal();
+            }
+          });
+
+        // User dropdown menu
+        const userAvatar = document.getElementById("user-avatar");
+        const dropdownMenu = document.getElementById("dropdown-menu");
+
+        if (userAvatar && dropdownMenu) {
+          userAvatar.addEventListener("click", function (event) {
+            event.stopPropagation();
+            dropdownMenu.classList.toggle("active");
+          });
+
+          document.addEventListener("click", function (event) {
+            if (
+              dropdownMenu.classList.contains("active") &&
+              !dropdownMenu.contains(event.target)
+            ) {
+              dropdownMenu.classList.remove("active");
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

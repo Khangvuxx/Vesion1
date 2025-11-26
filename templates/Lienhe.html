@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liên Hệ - Booking.com</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ==========================================================================
+         CSS GỐC & CÁC BIẾN (GIỮ NGUYÊN)
+         ========================================================================== */
+      :root {
+        --primary: #1a1a2e;
+        --secondary: #16213e;
+        --accent: #e94560;
+        --light: #f9f9f9;
+        --gold: #d4af37;
+        --transition: all 0.4s ease;
+        --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Montserrat", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #fdfdfd;
+        overflow-x: hidden;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Playfair Display", serif;
+        font-weight: 600;
+      }
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Header (Giữ nguyên) */
+      header {
+        background-color: rgba(58, 58, 241);
+        color: white;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+      }
+      header.scrolled {
+        background-color: rgba(58, 58, 241, 0.8);
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        align-items: center;
+      }
+      .nav-links li {
+        margin-left: 30px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
+        font-size: 15px;
+      }
+      .nav-links a:hover {
+        color: var(--gold);
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--gold);
+        transition: var(--transition);
+      }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+      .user-menu {
+        position: relative;
+      }
+      .user-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        transition: var(--transition);
+      }
+      .user-avatar:hover {
+        border-color: var(--gold);
+        transform: scale(1.05);
+      }
+      .user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        border-radius: 10px;
+        box-shadow: var(--shadow-hover);
+        min-width: 180px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: var(--transition);
+        z-index: 1001;
+      }
+
+      .dropdown-menu.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .dropdown-item span {
+        color: black;
+      }
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: var(--primary);
+        text-decoration: none;
+        transition: var(--transition);
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .dropdown-item:last-child {
+        border-bottom: none;
+      }
+      .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: var(--accent);
+      }
+      .dropdown-item i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+      .menu-toggle {
+        display: none;
+        cursor: pointer;
+        font-size: 24px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 14px 30px;
+        background-color: var(--accent);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+      }
+      .btn:hover {
+        background-color: var(--gold);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      .section {
+        padding: 80px 0;
+      }
+
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background-color: var(--accent);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+        z-index: 999;
+        box-shadow: var(--shadow);
+      }
+      .back-to-top.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+        .nav-links {
+          position: fixed;
+          top: 80px;
+          left: 0;
+          width: 100%;
+          background-color: var(--primary);
+          flex-direction: column;
+          align-items: center;
+          padding: 20px 0;
+          transform: translateY(-100%);
+          opacity: 0;
+          transition: var(--transition);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .nav-links.active {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        .nav-links li {
+          margin: 15px 0;
+        }
+        .section {
+          padding: 70px 0;
+        }
+      }
+
+      /* ==========================================================================
+         CSS TRANG LIÊN HỆ (ĐÃ CẬP NHẬT)
+         ========================================================================== */
+
+      .contact-hero {
+        padding-top: 150px;
+        padding-bottom: 70px;
+        text-align: center;
+        color: white;
+        background: linear-gradient(
+            rgba(26, 26, 46, 0.7),
+            rgba(26, 26, 46, 0.7)
+          ),
+          url("https://images.unsplash.com/photo-1563911302283-d2bc129e7570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80")
+            no-repeat center center/cover;
+      }
+      .contact-hero h1 {
+        font-size: 3.5rem;
+      }
+      .contact-hero p {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 15px auto 0;
+        color: #ccc;
+      }
+
+      .contact-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1.25fr;
+        gap: 50px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .contact-info,
+      .contact-form-container {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+      }
+
+      .contact-info h3,
+      .contact-form-container h3 {
+        font-size: 1.8rem;
+        margin-bottom: 35px;
+        color: var(--primary);
+        text-align: center;
+      }
+      .contact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        gap: 20px;
+      }
+      .contact-icon {
+        flex-shrink: 0;
+        width: 50px;
+        height: 50px;
+        background-color: rgba(233, 69, 96, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+      .contact-icon i {
+        font-size: 1.3rem;
+        color: var(--accent);
+      }
+      .contact-item:hover .contact-icon {
+        background-color: var(--accent);
+        transform: scale(1.1);
+      }
+      .contact-item:hover .contact-icon i {
+        color: white;
+      }
+      .contact-details h4 {
+        font-size: 1rem;
+        color: var(--secondary);
+        margin-bottom: 3px;
+        font-family: "Montserrat";
+        font-weight: 600;
+      }
+      .contact-details p {
+        color: #666;
+        font-size: 0.95rem;
+      }
+      .map-container {
+        margin-top: 35px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      .map-container iframe {
+        border: 0;
+        width: 100%;
+        height: 250px;
+      }
+
+      /* Form styling */
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .input-wrapper {
+        position: relative;
+      }
+      .input-wrapper .form-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa;
+        transition: var(--transition);
+      }
+      .form-control {
+        width: 100%;
+        padding: 14px 18px 14px 50px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: "Montserrat", sans-serif;
+        transition: var(--transition);
+        background: #f9f9f9;
+        font-size: 0.95rem;
+      }
+      .form-control::placeholder {
+        color: #999;
+      }
+      .form-control:focus {
+        border-color: var(--accent);
+        background: white;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+      }
+      .form-control:focus + .form-icon {
+        color: var(--accent);
+      }
+      textarea.form-control {
+        min-height: 140px;
+        padding: 15px 18px;
+      }
+
+      /* CSS Cho Chức Năng Tải Ảnh */
+      .file-upload-group {
+        margin-bottom: 20px;
+      }
+      .file-upload-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+        padding: 14px;
+        text-align: center;
+        transition: var(--transition);
+        cursor: pointer;
+      }
+      .file-upload-label:hover {
+        border-color: var(--accent);
+        background-color: #fff8f9;
+      }
+      .file-upload-group input[type="file"] {
+        display: none;
+      }
+      .file-upload-label span {
+        color: #555;
+        font-weight: 500;
+      }
+      .file-upload-label i {
+        margin-right: 10px;
+        color: var(--accent);
+      }
+
+      #file-display-area {
+        margin-top: 15px;
+      }
+      #file-list ul {
+        list-style-type: none;
+        margin: 8px 0;
+        padding: 0;
+      }
+      #file-list li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.95em;
+        margin-bottom: 5px;
+        color: #333;
+        background: #f9f9f9;
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
+      #file-list strong {
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 5px;
+        display: block;
+        font-size: 0.9em;
+      }
+      .file-info {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 80%;
+      }
+      .file-size {
+        color: #777;
+        font-size: 0.9em;
+        margin-left: 10px;
+      }
+
+      .clear-btn {
+        background: transparent;
+        border: none;
+        color: var(--accent);
+        cursor: pointer;
+        font-size: 1.1em;
+        padding: 0 5px;
+      }
+      .clear-all-container {
+        text-align: right;
+        margin-top: 10px;
+      }
+      .clear-all-btn {
+        background: transparent;
+        border: none;
+        color: #777;
+        cursor: pointer;
+        font-size: 0.9em;
+        text-decoration: underline;
+      }
+      .clear-all-btn:hover {
+        color: var(--accent);
+      }
+
+      @media (max-width: 992px) {
+        .contact-wrapper {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+        .contact-hero {
+          padding-top: 120px;
+        }
+      }
+      @media (max-width: 576px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        .contact-info,
+        .contact-form-container {
+          padding: 25px;
+        }
+      }
+
+      /* CSS FOOTER (Giữ nguyên) */
+      footer {
+        background-color: var(--primary);
+        color: white;
+        padding: 70px 0 20px;
+      }
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 50px;
+      }
+      .footer-column h3 {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 10px;
+      }
+      .footer-column p {
+        color: #bbb;
+        line-height: 1.7;
+      }
+      .footer-column h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background-color: var(--accent);
+      }
+      .footer-links {
+        list-style: none;
+      }
+      .footer-column .footer-links li {
+        margin-bottom: 12px;
+      }
+      .footer-column .footer-links a,
+      .footer-column .footer-links li {
+        color: #bbb;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+      .footer-column .footer-links li i {
+        margin-right: 10px;
+      }
+      .footer-column .footer-links a:hover {
+        color: var(--accent);
+        padding-left: 5px;
+      }
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+      .social-links a:hover {
+        background-color: var(--accent);
+        transform: translateY(-5px);
+      }
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #bbb;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <div class="container">
+        <nav class="navbar">
+          <a href="/TrangChu" class="logo">Booking.com</a>
+          <div class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+          </div>
+          <ul class="nav-links" id="nav-links">
+            <li><a href="/TrangChu">Trang chủ</a></li>
+            <li><a href="/GioiThieu">Giới thiệu</a></li>
+            <li><a href="/phongdoi">Phòng đôi</a></li>
+            <li><a href="/phongdon">Phòng đơn</a></li>
+            <li><a href="/SaleRooms">Phòng Sale</a></li>
+            <li><a href="/tiennghi">Tiện nghi</a></li>
+            <li><a href="/ThanhToan">Thanh Toán</a></li>
+            <li><a href="/Lienhe">Liên hệ</a></li>
+            <li class="user-menu">
+              <div class="user-avatar" id="user-avatar">
+                <img
+                  src="https://randomuser.me/api/portraits/men/32.jpg"
+                  alt="User Avatar"
+                />
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu">
+                <a href="/TTCN" class="dropdown-item"
+                  ><i class="fas fa-user-circle"></i><span>Tài khoản</span></a
+                ><a href="#" class="dropdown-item"
+                  ><i class="fas fa-cog"></i><span>Cài đặt</span></a
+                ><a href="/logout" class="dropdown-item" id="logout-link"
+                  ><i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span></a
+                >
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="contact-hero">
+        <h1>Cần Hỗ Trợ?</h1>
+        <p>
+          Đội ngũ của chúng tôi luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc
+          của bạn. Hãy kết nối ngay!
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="contact-wrapper">
+            <div class="contact-info">
+              <h3>Thông Tin Liên Hệ</h3>
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="contact-details">
+                  <h4>Địa chỉ</h4>
+                  <p>Số 1, Phố Xốm, Phú Lãm, Hà Đông, Hà Nội</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                <div class="contact-details">
+                  <h4>Điện thoại</h4>
+                  <p>+84 28 1234 5678 (Mẫu)</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                <div class="contact-details">
+                  <h4>Email</h4>
+                  <p>info@luxuryhaven.com (Mẫu)</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                <div class="contact-details">
+                  <h4>Giờ làm việc</h4>
+                  <p>24/7 - Hỗ trợ khách hàng mọi lúc</p>
+                </div>
+              </div>
+              <div class="map-container">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.864406249781!2d105.7645440750133!3d20.95759748067425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313452e3153f36c1%3A0x11f85551c63b4695!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyDEkOG6oWkgTmFt!5e0!3m2!1svi!2s!4v1731299765476!5m2!1svi!2s"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+
+            <div class="contact-form-container">
+              <h3>Gửi Tin Nhắn Cho Chúng Tôi</h3>
+              <form id="main-contact-form" novalidate>
+                <div class="form-row">
+                  <div class="form-group">
+                    <div class="input-wrapper">
+                      <input
+                        type="text"
+                        id="name"
+                        class="form-control"
+                        required
+                        placeholder="Họ và tên"
+                      /><i class="fas fa-user form-icon"></i>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-wrapper">
+                      <input
+                        type="email"
+                        id="email"
+                        class="form-control"
+                        required
+                        placeholder="Địa chỉ email"
+                      /><i class="fas fa-at form-icon"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-wrapper">
+                    <input
+                      type="text"
+                      id="subject"
+                      class="form-control"
+                      required
+                      placeholder="Tiêu đề"
+                    /><i class="fas fa-bookmark form-icon"></i>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <textarea
+                    id="message"
+                    class="form-control"
+                    required
+                    placeholder="Nội dung chi tiết..."
+                  ></textarea>
+                </div>
+
+                <div class="file-upload-group">
+                  <input
+                    type="file"
+                    id="file-upload"
+                    name="attachment"
+                    accept="image/*"
+                    multiple
+                  />
+                  <label for="file-upload" class="file-upload-label"
+                    ><i class="fas fa-paperclip"></i
+                    ><span>Đính kèm ảnh (tối đa 5)</span></label
+                  >
+                  <div id="file-display-area">
+                    <div id="file-list"></div>
+                    <div id="clear-all-container"></div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn">
+                  <i class="fas fa-paper-plane"></i>Gửi Ngay
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>Booking.com</h3>
+            <p>
+              Nền tảng đặt phòng khách sạn trực tuyến hàng đầu, mang đến trải
+              nghiệm đặt phòng dễ dàng và tiện lợi nhất cho quý khách.
+            </p>
+            <div class="social-links">
+              <a href="https://www.facebook.com/cong.quan.58173"
+                ><i class="fab fa-facebook-f"></i></a
+              ><a href="https://www.facebook.com/cong.quan.58173"
+                ><i class="fab fa-twitter"></i></a
+              ><a href="https://www.facebook.com/cong.quan.58173"
+                ><i class="fab fa-instagram"></i></a
+              ><a href="https://www.facebook.com/cong.quan.58173"
+                ><i class="fab fa-youtube"></i
+              ></a>
+            </div>
+          </div>
+          <div class="footer-column">
+            <h3>Liên kết nhanh</h3>
+            <ul class="footer-links">
+              <li><a href="/TrangChu">Trang chủ</a></li>
+              <li><a href="/GioiThieu">Giới thiệu</a></li>
+              <li><a href="/TrangChu#rooms">Phòng & Suite</a></li>
+              <li><a href="/tiennghi">Tiện nghi</a></li>
+              <li><a href="/Lienhe">Liên hệ</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Dịch vụ</h3>
+            <ul class="footer-links">
+              <li><a href="#">Đặt phòng trực tuyến</a></li>
+              <li><a href="#">Dịch vụ Spa</a></li>
+              <li><a href="#">Nhà hàng & Bar</a></li>
+              <li><a href="#">Sự kiện & Hội nghị</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Liên Hệ</h3>
+            <ul class="footer-links">
+              <li>
+                <i class="fas fa-map-marker-alt"></i> Số 1 Phú lãm -Hà đông
+              </li>
+              <li><i class="fas fa-phone-alt"></i> +84 28 3823 4567</li>
+              <li><i class="fas fa-envelope"></i> info@booking.com</li>
+            </ul>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>© 2025 Booking.com Tất cả các quyền được bảo lưu.</p>
+        </div>
+      </div>
+    </footer>
+    <a href="#" class="back-to-top" id="back-to-top"
+      ><i class="fas fa-chevron-up"></i
+    ></a>
+
+    <script>
+      // Header, Back to top, User Menu
+      (() => {
+        const menuToggle = document.getElementById("menu-toggle"),
+          navLinks = document.getElementById("nav-links");
+        menuToggle &&
+          menuToggle.addEventListener("click", () =>
+            navLinks.classList.toggle("active")
+          );
+        const header = document.getElementById("header");
+        header &&
+          window.addEventListener("scroll", () =>
+            window.scrollY > 100
+              ? header.classList.add("scrolled")
+              : header.classList.remove("scrolled")
+          );
+        const backToTop = document.getElementById("back-to-top");
+        backToTop &&
+          window.addEventListener("scroll", () =>
+            window.scrollY > 300
+              ? backToTop.classList.add("active")
+              : backToTop.classList.remove("active")
+          );
+        const userAvatar = document.getElementById("user-avatar"),
+          dropdownMenu = document.getElementById("dropdown-menu");
+        userAvatar &&
+          dropdownMenu &&
+          (userAvatar.addEventListener("click", (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle("active");
+          }),
+          document.addEventListener("click", (e) => {
+            userAvatar.contains(e.target) ||
+              dropdownMenu.contains(e.target) ||
+              dropdownMenu.classList.remove("active");
+          }),
+          dropdownMenu.addEventListener("click", (e) => e.stopPropagation()));
+      })();
+
+      // === SCRIPT MỚI CHO LOGIC TẢI FILE ===
+      (() => {
+        const MAX_FILES = 5;
+        let uploadedFiles = []; // Mảng để lưu trữ tất cả các tệp đã chọn
+
+        const fileInput = document.getElementById("file-upload");
+        const fileListDisplay = document.getElementById("file-list");
+        const clearAllContainer = document.getElementById(
+          "clear-all-container"
+        );
+
+        // Hàm cập nhật hiển thị danh sách tệp
+        const updateFileList = () => {
+          fileListDisplay.innerHTML = "";
+          clearAllContainer.innerHTML = "";
+
+          if (uploadedFiles.length > 0) {
+            const list = document.createElement("ul");
+            fileListDisplay.innerHTML = `<strong>Đã chọn ${uploadedFiles.length} tệp:</strong>`;
+
+            uploadedFiles.forEach((file, index) => {
+              const listItem = document.createElement("li");
+              const fileSizeKB = (file.size / 1024).toFixed(1);
+
+              listItem.innerHTML = `
+                <span class="file-info">${file.name}</span>
+                <span class="file-info file-size">(${fileSizeKB} KB)</span>
+                <button type="button" class="clear-btn" data-index="${index}" title="Xóa tệp này">&times;</button>
+              `;
+              list.appendChild(listItem);
+            });
+            fileListDisplay.appendChild(list);
+
+            // Thêm nút "Xóa tất cả"
+            const clearAllBtn = document.createElement("button");
+            clearAllBtn.type = "button";
+            clearAllBtn.className = "clear-all-btn";
+            clearAllBtn.innerText = "Xóa tất cả";
+            clearAllContainer.appendChild(clearAllBtn);
+          }
+        };
+
+        // Xử lý khi người dùng chọn tệp
+        fileInput.addEventListener("change", function () {
+          const newFiles = Array.from(this.files);
+
+          if (uploadedFiles.length + newFiles.length > MAX_FILES) {
+            alert(
+              `Bạn chỉ có thể tải lên tối đa ${MAX_FILES} ảnh. Bạn đã chọn ${uploadedFiles.length} ảnh.`
+            );
+            this.value = "";
+            return;
+          }
+
+          uploadedFiles.push(...newFiles); // Thêm tệp mới vào mảng
+          updateFileList();
+          this.value = ""; // Reset input để có thể chọn lại cùng tệp
+        });
+
+        // Xử lý khi người dùng xóa tệp (sử dụng event delegation)
+        fileListDisplay.addEventListener("click", (e) => {
+          if (e.target.classList.contains("clear-btn")) {
+            const indexToRemove = parseInt(
+              e.target.getAttribute("data-index"),
+              10
+            );
+            uploadedFiles.splice(indexToRemove, 1); // Xóa tệp khỏi mảng
+            updateFileList();
+          }
+        });
+
+        clearAllContainer.addEventListener("click", (e) => {
+          if (e.target.classList.contains("clear-all-btn")) {
+            uploadedFiles = []; // Xóa tất cả tệp
+            updateFileList();
+          }
+        });
+
+        // Xử lý khi gửi form
+        const contactForm = document.getElementById("main-contact-form");
+        contactForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          alert(
+            `Cảm ơn bạn! Tin nhắn của bạn đã được gửi thành công cùng với ${uploadedFiles.length} tệp đính kèm.`
+          );
+          contactForm.reset();
+          uploadedFiles = []; // Xóa mảng tệp
+          updateFileList(); // Cập nhật lại hiển thị (thành rỗng)
+        });
+      })();
+    </script>
+  </body>
+</html>

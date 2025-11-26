@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hồ sơ Khách hàng - [Tên bạn]</title>
+    <link rel="stylesheet" href="client-style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* Thiết lập cơ bản */
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f2f5; /* Màu nền xám nhạt */
+        color: #333;
+      }
+
+      .dashboard-layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Biến màu (để dễ dàng thay đổi) */
+      :root {
+        --primary-color: #007bff; /* Xanh dương đậm */
+        --secondary-color: #00bcd4; /* Xanh ngọc */
+        --bg-color-light: #ffffff;
+        --text-color-dark: #333;
+      }
+
+      /* Thanh Bên (Sidebar) */
+      .sidebar {
+        width: 280px;
+        background-color: var(--bg-color-light);
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .profile-info {
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 20px;
+      }
+
+      .profile-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary-color);
+        margin-bottom: 10px;
+      }
+
+      .member-status {
+        color: var(--primary-color);
+        font-weight: 500;
+        font-size: 0.9em;
+      }
+
+      /* Menu điều hướng */
+      .nav-menu {
+        flex-grow: 1; /* Cho phép menu chiếm hết không gian còn lại */
+        display: flex;
+        flex-direction: column;
+      }
+      .nav-menu a {
+        text-decoration: none;
+        margin: 20px;
+      }
+      .nav-menu a i {
+        margin-right: 15px;
+      }
+
+      .nav-item {
+        display: block;
+        padding: 12px 15px;
+        text-decoration: none;
+        color: var(--text-color-dark);
+        font-size: 1em;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .nav-item:hover {
+        background-color: #f0f0f0;
+        color: var(--primary-color);
+      }
+
+      .nav-item i {
+        margin-right: 10px;
+      }
+
+      .nav-item.active {
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 500;
+      }
+
+      .nav-item.active:hover {
+        background-color: #0056b3;
+      }
+
+      .logout-link {
+        margin-top: auto; /* Đẩy xuống cuối sidebar */
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+      }
+
+      .logout-link a {
+        color: #dc3545;
+        text-decoration: none;
+      }
+
+      /* Nội dung Chính */
+      .main-content {
+        flex-grow: 1;
+        padding: 30px;
+      }
+
+      .main-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .main-header h2 {
+        color: var(--primary-color);
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .edit-button {
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .edit-button:hover {
+        background-color: #00a4b8;
+      }
+
+      /* Thẻ tổng quan (Cards) */
+      .overview-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .card {
+        background-color: var(--bg-color-light);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+      }
+
+      .stat-card {
+        text-align: center;
+      }
+
+      .stat-card i {
+        font-size: 30px;
+        margin-bottom: 10px;
+      }
+
+      .icon-primary {
+        color: var(--primary-color);
+      }
+      .icon-secondary {
+        color: var(--secondary-color);
+      }
+      .icon-success {
+        color: #28a745;
+      }
+
+      .stat-number {
+        font-size: 1.5em;
+        font-weight: 700;
+        color: var(--text-color-dark);
+        margin: 5px 0 0;
+      }
+
+      /* Thông tin chi tiết */
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 15px;
+      }
+
+      .info-item label {
+        display: block;
+        font-size: 0.8em;
+        color: #6c757d;
+        font-weight: 500;
+      }
+
+      .info-item p {
+        font-size: 1em;
+        font-weight: 400;
+        margin: 5px 0 0;
+      }
+
+      /* Yêu cầu đặc biệt */
+      .preferences-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 15px;
+      }
+
+      .preferences-list li {
+        padding: 8px 0;
+        border-bottom: 1px dashed #eee;
+        color: #555;
+      }
+
+      .preferences-list li:last-child {
+        border-bottom: none;
+      }
+
+      .preferences-list i {
+        color: #28a745; /* Màu xanh lá cho check */
+        margin-right: 10px;
+      }
+
+      /* Responsive cho màn hình di động */
+      @media (max-width: 768px) {
+        .dashboard-layout {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+          padding: 15px;
+        }
+
+        .nav-menu {
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap; /* Cho phép các mục nav xuống dòng */
+          justify-content: center;
+        }
+
+        .nav-item {
+          padding: 8px 10px;
+          margin: 4px;
+          font-size: 0.9em;
+          text-align: center;
+        }
+
+        .profile-info {
+          border-bottom: none;
+        }
+
+        .main-content {
+          padding: 20px;
+        }
+
+        .overview-cards,
+        .info-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="profile-info">
+          <img src="251364127.jpg" alt="Avatar" class="profile-avatar" />
+          <h3>[Tên của bạn]</h3>
+          <p class="member-status">Thành viên Vàng</p>
+        </div>
+        <nav class="nav-menu">
+          <a href="#" class="nav-item active"
+            ><i class="fas fa-user-circle"></i> Hồ sơ cá nhân</a
+          >
+          <a href="#"
+            ><i class="fas fa-suitcase-rolling"></i> Chuyến đi sắp tới</a
+          >
+          <a href="#"><i class="fas fa-history"></i> Lịch sử đặt phòng</a>
+          <a href="#"><i class="fas fa-star"></i> Đánh giá của tôi</a>
+          <a href="#"
+            ><i class="fas fa-credit-card"></i> Phương thức thanh toán</a
+          >
+          <a href="#"><i class="fas fa-cog"></i> Cài đặt tài khoản</a>
+        </nav>
+        <div class="logout-link">
+          <a href="/logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="main-header">
+          <h2><i class="fas fa-user-circle"></i> Hồ sơ cá nhân</h2>
+          <button class="edit-button">
+            <i class="fas fa-edit"></i> Chỉnh sửa
+          </button>
+        </header>
+
+        <section class="overview-cards">
+          <div class="card stat-card">
+            <i class="fas fa-suitcase-rolling icon-primary"></i>
+            <h4>Chuyến đi đã đặt</h4>
+            <p class="stat-number">12</p>
+          </div>
+          <div class="card stat-card">
+            <i class="fas fa-star icon-secondary"></i>
+            <h4>Điểm tích lũy</h4>
+            <p class="stat-number">4500 điểm</p>
+          </div>
+          <div class="card stat-card">
+            <i class="fas fa-dollar-sign icon-success"></i>
+            <h4>Ưu đãi cá nhân</h4>
+            <p class="stat-number">3 Phiếu giảm giá</p>
+          </div>
+        </section>
+
+        <section class="profile-details card">
+          <h3>Thông tin liên hệ</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Email</label>
+              <p>[Email của bạn]</p>
+            </div>
+            <div class="info-item">
+              <label>Số điện thoại</label>
+              <p>[Số điện thoại của bạn]</p>
+            </div>
+            <div class="info-item">
+              <label>Ngày sinh</label>
+              <p>[Ngày/tháng/năm sinh]</p>
+            </div>
+            <div class="info-item">
+              <label>Địa chỉ thường trú</label>
+              <p>[Địa chỉ của bạn]</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="special-info card">
+          <h3>Yêu cầu đặc biệt (Thói quen đặt phòng)</h3>
+          <ul class="preferences-list">
+            <li>
+              <i class="fas fa-check-circle"></i> Thích phòng không hút thuốc
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i> Yêu cầu giường cỡ lớn (King
+              size)
+            </li>
+            <li><i class="fas fa-check-circle"></i> Ưu tiên tầng cao</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

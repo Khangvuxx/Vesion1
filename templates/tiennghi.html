@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tiện Nghi - Booking.com</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #1a1a2e;
+        --secondary: #16213e;
+        --accent: #e94560;
+        --gold: #d4af37;
+        --light: #f9f9f9;
+        --dark: #0f0f1a;
+        --transition: all 0.4s ease;
+        --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: var(--light);
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        font-family: "Playfair Display", serif;
+        font-weight: 600;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Header - Updated to match Home page */
+      header {
+        background-color: rgba(58, 58, 241);
+        color: white;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+      }
+
+      header.scrolled {
+        background-color: rgba(58, 58, 241, 0.8);
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo i {
+        margin-right: 10px;
+        color: var(--gold);
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        align-items: center;
+      }
+
+      .nav-links li {
+        margin-left: 30px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
+        font-size: 15px;
+      }
+      .nav-links a span {
+        color: black;
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
+        font-size: 15px;
+      }
+
+      .nav-links a:hover {
+        color: var(--gold);
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--gold);
+        transition: var(--transition);
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* User Menu Styles */
+      .user-menu {
+        position: relative;
+      }
+
+      .user-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        transition: var(--transition);
+      }
+
+      .user-avatar:hover {
+        border-color: var(--gold);
+        transform: scale(1.05);
+      }
+
+      .user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        border-radius: 10px;
+        box-shadow: var(--shadow-hover);
+        min-width: 180px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: var(--transition);
+        z-index: 1001;
+      }
+
+      .dropdown-menu.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-menu::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        right: 20px;
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid white;
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: var(--primary);
+        text-decoration: none;
+        transition: var(--transition);
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .dropdown-item:last-child {
+        border-bottom: none;
+      }
+
+      .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: var(--accent);
+      }
+
+      .dropdown-item i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .menu-toggle {
+        display: none;
+        cursor: pointer;
+        font-size: 24px;
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 70vh;
+        background: linear-gradient(
+            rgba(15, 15, 26, 0.8),
+            rgba(15, 15, 26, 0.9)
+          ),
+          url("https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")
+            no-repeat center center/cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        padding-top: 80px;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        padding: 0 20px;
+        transform: translateY(50px);
+        opacity: 0;
+        animation: fadeUp 1s forwards 0.5s;
+      }
+
+      @keyframes fadeUp {
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        line-height: 1.2;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        opacity: 0.9;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: var(--accent);
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+      }
+
+      .btn:hover {
+        background-color: var(--gold);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 2px solid white;
+      }
+
+      .btn-outline:hover {
+        background: white;
+        color: var(--primary);
+      }
+
+      /* Section Styling */
+      .section {
+        padding: 100px 0;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .section-title h2 {
+        font-size: 2.5rem;
+        color: var(--primary);
+        position: relative;
+        display: inline-block;
+        margin-bottom: 15px;
+      }
+
+      .section-title h2::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: var(--accent);
+      }
+
+      .section-title p {
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* Amenities Grid */
+      .amenities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .amenity-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+        transform: translateY(30px);
+        opacity: 0;
+      }
+
+      .amenity-card.visible {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .amenity-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      .amenity-image {
+        height: 220px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .amenity-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .amenity-card:hover .amenity-image img {
+        transform: scale(1.1);
+      }
+
+      .amenity-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+        display: flex;
+        align-items: flex-end;
+        padding: 20px;
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .amenity-card:hover .amenity-overlay {
+        opacity: 1;
+      }
+
+      .amenity-overlay h3 {
+        color: white;
+        font-size: 1.4rem;
+      }
+
+      .amenity-content {
+        padding: 25px;
+      }
+
+      .amenity-content h3 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        color: var(--primary);
+      }
+
+      .amenity-content p {
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      .amenity-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .amenity-feature {
+        background: rgba(233, 69, 96, 0.1);
+        color: var(--accent);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+
+      .amenity-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--accent), var(--gold));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        color: white;
+        font-size: 1.5rem;
+      }
+
+      /* Luxury Facilities Section */
+      .luxury-facilities {
+        background: linear-gradient(
+            rgba(26, 26, 46, 0.9),
+            rgba(26, 26, 46, 0.9)
+          ),
+          url("https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")
+            no-repeat center center/cover;
+        color: white;
+      }
+
+      .luxury-facilities .section-title h2 {
+        color: white;
+      }
+
+      .luxury-facilities .section-title h2::after {
+        background-color: var(--gold);
+      }
+
+      .facilities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+
+      .facility-card {
+        text-align: center;
+        padding: 40px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        transition: var(--transition);
+        transform: translateY(30px);
+        opacity: 0;
+      }
+
+      .facility-card.visible {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .facility-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .facility-icon {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        transition: var(--transition);
+      }
+
+      .facility-card:hover .facility-icon {
+        background: var(--gold);
+        transform: rotateY(180deg);
+      }
+
+      .facility-icon i {
+        font-size: 2rem;
+        color: white;
+        transition: var(--transition);
+      }
+
+      .facility-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+      }
+
+      /* Gallery Section */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .gallery-item {
+        height: 250px;
+        overflow: hidden;
+        border-radius: 10px;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.1);
+      }
+
+      .gallery-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+        display: flex;
+        align-items: flex-end;
+        padding: 20px;
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+      }
+
+      .gallery-overlay h3 {
+        color: white;
+        font-size: 1.2rem;
+      }
+
+      /* Services Section */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .service-card {
+        display: flex;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        transform: translateY(30px);
+        opacity: 0;
+      }
+
+      .service-card.visible {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      .service-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--accent), var(--gold));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px;
+        flex-shrink: 0;
+        color: white;
+        font-size: 1.8rem;
+      }
+
+      .service-content {
+        padding: 20px 20px 20px 0;
+      }
+
+      .service-content h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: var(--primary);
+      }
+
+      .service-content p {
+        color: #666;
+      }
+
+      /* Footer - Updated to match Home page */
+      footer {
+        background-color: var(--primary);
+        color: white;
+        padding: 70px 0 20px;
+        margin-top: 40px;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 50px;
+      }
+
+      .footer-column h3 {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-column h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background-color: var(--accent);
+      }
+
+      .footer-column p {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 12px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .footer-links a {
+        color: #bbb;
+        text-decoration: none;
+        transition: all 0.4s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+        padding-left: 5px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        transition: all 0.4s ease;
+      }
+
+      .social-links a:hover {
+        background-color: var(--accent);
+        transform: translateY(-5px);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #bbb;
+        font-size: 0.9rem;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      /* Back to top button */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background-color: var(--accent);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+        z-index: 999;
+        box-shadow: var(--shadow);
+      }
+
+      .back-to-top.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .back-to-top:hover {
+        background-color: var(--gold);
+        transform: translateY(-5px);
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .hero h1 {
+          font-size: 3rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+
+        .nav-links {
+          position: fixed;
+          top: 80px;
+          left: 0;
+          width: 100%;
+          background-color: var(--primary);
+          flex-direction: column;
+          align-items: center;
+          padding: 20px 0;
+          transform: translateY(-100%);
+          opacity: 0;
+          transition: var(--transition);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links.active {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .nav-links li {
+          margin: 15px 0;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .section {
+          padding: 70px 0;
+        }
+
+        .user-menu {
+          margin-top: 15px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .section-title h2 {
+          font-size: 2rem;
+        }
+
+        .service-card {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .service-icon {
+          margin: 20px auto;
+        }
+
+        .service-content {
+          padding: 0 20px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header - Updated to match Home page -->
+    <header id="header">
+      <div class="container">
+        <nav class="navbar">
+          <a href="#" class="logo">Booking.com</a>
+          <div class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+          </div>
+          <ul class="nav-links" id="nav-links">
+            <li><a href="/TrangChu">Trang chủ</a></li>
+            <li><a href="/GioiThieu">Giới thiệu</a></li>
+            <li><a href="/phongdoi">Phòng đôi</a></li>
+            <li><a href="/phongdon">Phòng đơn</a></li>
+            <li><a href="/SaleRooms">Phòng Sale</a></li>
+            <li><a href="/tiennghi">Tiện nghi</a></li>
+            <li><a href="/ThanhToan">Thanh Toán</a></li>
+            <li><a href="/Lienhe">Liên hệ</a></li>
+            <li class="user-menu">
+              <div class="user-avatar" id="user-avatar">
+                <img
+                  src="https://randomuser.me/api/portraits/men/32.jpg"
+                  alt="User Avatar"
+                />
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu">
+                <a href="/TTCN" class="dropdown-item">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Tài khoản</span>
+                </a>
+                <a href="#" class="dropdown-item">
+                  <i class="fas fa-cog"></i>
+                  <span>Cài đặt</span>
+                </a>
+                <a href="/logout" class="dropdown-item" id="logout-link">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span>Đăng xuất</span>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1>Tiện Nghi Đẳng Cấp</h1>
+        <p>
+          Khám phá những tiện nghi và dịch vụ cao cấp tại Booking.com - nơi mang
+          đến trải nghiệm nghỉ dưỡng hoàn hảo và đáng nhớ nhất
+        </p>
+        <a href="#amenities" class="btn">Khám phá ngay</a>
+      </div>
+    </section>
+
+    <!-- Main Amenities Section -->
+    <section class="section" id="amenities">
+      <div class="container">
+        <div class="section-title">
+          <h2>Tiện Nghi Cao Cấp</h2>
+          <p>Trải nghiệm những tiện nghi đẳng cấp nhất tại Booking.com</p>
+        </div>
+        <div class="amenities-grid">
+          <div class="amenity-card">
+            <div class="amenity-image">
+              <img
+                src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80"
+                alt="Hồ bơi vô cực"
+              />
+              <div class="amenity-overlay">
+                <h3>Hồ Bơi Vô Cực</h3>
+              </div>
+            </div>
+            <div class="amenity-content">
+              <div class="amenity-icon">
+                <i class="fas fa-swimming-pool"></i>
+              </div>
+              <h3>Hồ Bơi Vô Cực</h3>
+              <p>
+                Hồ bơi vô cực với view toàn cảnh thành phố, hoàn hảo để thư giãn
+                và chụp ảnh. Được thiết kế với công nghệ lọc nước tiên tiến và
+                hệ thống sưởi ấm.
+              </p>
+              <div class="amenity-features">
+                <span class="amenity-feature">View thành phố</span>
+                <span class="amenity-feature">Hệ thống sưởi</span>
+                <span class="amenity-feature">Bar bên hồ bơi</span>
+              </div>
+              <a href="#" class="btn">Khám phá</a>
+            </div>
+          </div>
+
+          <div class="amenity-card">
+            <div class="amenity-image">
+              <img
+                src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                alt="Spa & Wellness"
+              />
+              <div class="amenity-overlay">
+                <h3>Spa & Wellness</h3>
+              </div>
+            </div>
+            <div class="amenity-content">
+              <div class="amenity-icon">
+                <i class="fas fa-spa"></i>
+              </div>
+              <h3>Spa & Wellness</h3>
+              <p>
+                Trung tâm spa cao cấp với các liệu pháp thư giãn và chăm sóc sức
+                khỏe chuyên nghiệp. Đội ngũ trị liệu viên được đào tạo bài bản.
+              </p>
+              <div class="amenity-features">
+                <span class="amenity-feature">Massage trị liệu</span>
+                <span class="amenity-feature">Xông hơi</span>
+                <span class="amenity-feature">Chăm sóc da</span>
+              </div>
+              <a href="#" class="btn">Khám phá</a>
+            </div>
+          </div>
+
+          <div class="amenity-card">
+            <div class="amenity-image">
+              <img
+                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                alt="Phòng gym"
+              />
+              <div class="amenity-overlay">
+                <h3>Phòng Gym Đẳng Cấp</h3>
+              </div>
+            </div>
+            <div class="amenity-content">
+              <div class="amenity-icon">
+                <i class="fas fa-dumbbell"></i>
+              </div>
+              <h3>Phòng Gym Đẳng Cấp</h3>
+              <p>
+                Phòng tập thể hình hiện đại với đầy đủ thiết bị và huấn luyện
+                viên cá nhân. Mở cửa 24/7 để phục vụ nhu cầu của quý khách.
+              </p>
+              <div class="amenity-features">
+                <span class="amenity-feature">Thiết bị hiện đại</span>
+                <span class="amenity-feature">Huấn luyện viên</span>
+                <span class="amenity-feature">Mở cửa 24/7</span>
+              </div>
+              <a href="#" class="btn">Khám phá</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Luxury Facilities Section -->
+    <section class="section luxury-facilities" id="facilities">
+      <div class="container">
+        <div class="section-title">
+          <h2>Tiện Nghi Bổ Sung</h2>
+          <p>Những dịch vụ và tiện nghi bổ sung làm nên sự khác biệt</p>
+        </div>
+        <div class="facilities-grid">
+          <div class="facility-card">
+            <div class="facility-icon">
+              <i class="fas fa-concierge-bell"></i>
+            </div>
+            <h3>Dịch Vụ Hỗ Trợ 24/7</h3>
+            <p>
+              Đội ngũ hỗ trợ khách hàng chuyên nghiệp sẵn sàng phục vụ mọi lúc,
+              mọi nơi.
+            </p>
+          </div>
+
+          <div class="facility-card">
+            <div class="facility-icon">
+              <i class="fas fa-wifi"></i>
+            </div>
+            <h3>Wi-Fi Tốc Độ Cao</h3>
+            <p>
+              Kết nối internet tốc độ cao miễn phí trong toàn bộ khuôn viên
+              khách sạn.
+            </p>
+          </div>
+
+          <div class="facility-card">
+            <div class="facility-icon">
+              <i class="fas fa-parking"></i>
+            </div>
+            <h3>Bãi Đỗ Xe Rộng Rãi</h3>
+            <p>Bãi đỗ xe an toàn với dịch vụ valet parking chuyên nghiệp.</p>
+          </div>
+
+          <div class="facility-card">
+            <div class="facility-icon">
+              <i class="fas fa-umbrella-beach"></i>
+            </div>
+            <h3>Khu Vực Thư Giãn</h3>
+            <p>
+              Không gian thư giãn yên tĩnh với view tuyệt đẹp, hoàn hảo để nghỉ
+              ngơi.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-title">
+          <h2>Dịch Vụ Đặc Biệt</h2>
+          <p>Những dịch vụ độc quyền chỉ có tại Booking.com</p>
+        </div>
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-car"></i>
+            </div>
+            <div class="service-content">
+              <h3>Đưa Đón Sân Bay</h3>
+              <p>
+                Dịch vụ đưa đón sân bay bằng xe hạng sang, đảm bảo sự thoải mái
+                và tiện lợi tối đa.
+              </p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-utensils"></i>
+            </div>
+            <div class="service-content">
+              <h3>Dịch Vụ Phòng 24/7</h3>
+              <p>
+                Thực đơn đa dạng phục vụ 24/7 với những món ăn được chế biến bởi
+                đầu bếp hàng đầu.
+              </p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-business-time"></i>
+            </div>
+            <div class="service-content">
+              <h3>Trung Tâm Hội Nghị</h3>
+              <p>
+                Không gian hội nghị chuyên nghiệp với đầy đủ trang thiết bị hiện
+                đại phục vụ sự kiện.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section" id="gallery">
+      <div class="container">
+        <div class="section-title">
+          <h2>Thư Viện Tiện Nghi</h2>
+          <p>Khám phá không gian tiện nghi sang trọng tại Booking.com</p>
+        </div>
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <img
+              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+              alt="Lobby khách sạn"
+            />
+            <div class="gallery-overlay">
+              <h3>Lobby Sang Trọng</h3>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img
+              src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+              alt="Nhà hàng"
+            />
+            <div class="gallery-overlay">
+              <h3>Nhà Hàng Đẳng Cấp</h3>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img
+              src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80"
+              alt="Hồ bơi"
+            />
+            <div class="gallery-overlay">
+              <h3>Hồ Bơi Vô Cực</h3>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img
+              src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+              alt="Spa"
+            />
+            <div class="gallery-overlay">
+              <h3>Khu Spa Thư Giãn</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer - Updated to match Home page -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>Booking.com</h3>
+            <p>
+              Nền tảng đặt phòng khách sạn trực tuyến hàng đầu, mang đến trải
+              nghiệm đặt phòng dễ dàng và tiện lợi nhất cho quý khách.
+            </p>
+            <div class="social-links">
+              <a href="https://www.facebook.com/cong.quan.58173"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="https://www.facebook.com/cong.quan.58173"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="https://www.facebook.com/cong.quan.58173"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="https://www.facebook.com/cong.quan.58173"
+                ><i class="fab fa-youtube"></i
+              ></a>
+            </div>
+          </div>
+          <div class="footer-column">
+            <h3>Liên kết nhanh</h3>
+            <ul class="footer-links">
+              <li><a href="/TrangChu">Trang chủ</a></li>
+              <li><a href="/GioiThieu">Giới thiệu</a></li>
+              <li><a href="/TrangChu#rooms">Phòng & Suite</a></li>
+              <li><a href="/tiennghi">Tiện nghi</a></li>
+              <li><a href="/Lienhe">Liên hệ</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Dịch vụ</h3>
+            <ul class="footer-links">
+              <li><a href="#">Đặt phòng trực tuyến</a></li>
+              <li><a href="#">Khuyến mãi đặc biệt</a></li>
+              <li><a href="#">Nhà hàng & Bar</a></li>
+              <li><a href="#">Sự kiện & Hội nghị</a></li>
+              <li><a href="#">Tour & Hoạt động</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Liên hệ</h3>
+            <ul class="footer-links">
+              <li>
+                <i class="fas fa-map-marker-alt"></i> Số 1 Phố xốm Phú Lãm Hà
+                Đông
+              </li>
+              <li><i class="fas fa-phone-alt"></i> +84 28 3823 4567</li>
+              <li><i class="fas fa-envelope"></i> info@booking.com</li>
+            </ul>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2025 Booking.com. Tất cả các quyền được bảo lưu.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <a href="#" class="back-to-top" id="back-to-top">
+      <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <script>
+      // Mobile menu toggle
+      const menuToggle = document.getElementById("menu-toggle");
+      const navLinks = document.getElementById("nav-links");
+
+      menuToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+      });
+
+      // Header scroll effect
+      const header = document.getElementById("header");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 100) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      // Back to top button
+      const backToTop = document.getElementById("back-to-top");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          backToTop.classList.add("active");
+        } else {
+          backToTop.classList.remove("active");
+        }
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href");
+          if (targetId === "#") return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: "smooth",
+            });
+
+            // Close mobile menu if open
+            navLinks.classList.remove("active");
+          }
+        });
+      });
+
+      // Animation on scroll
+      const animateOnScroll = () => {
+        const elements = document.querySelectorAll(
+          ".amenity-card, .facility-card, .service-card"
+        );
+
+        elements.forEach((element) => {
+          const elementTop = element.getBoundingClientRect().top;
+          const elementVisible = 150;
+
+          if (elementTop < window.innerHeight - elementVisible) {
+            element.classList.add("visible");
+          }
+        });
+      };
+
+      window.addEventListener("scroll", animateOnScroll);
+      // Initial check on page load
+      animateOnScroll();
+
+      // User dropdown menu
+      const userAvatar = document.getElementById("user-avatar");
+      const dropdownMenu = document.getElementById("dropdown-menu");
+
+      userAvatar.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle("active");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function () {
+        dropdownMenu.classList.remove("active");
+      });
+
+      // Prevent dropdown from closing when clicking inside it
+      dropdownMenu.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+    </script>
+  </body>
+</html>

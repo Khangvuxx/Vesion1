@@ -1,0 +1,367 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  background: black;
+}
+.Header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 25px 12.5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  z-index: 1000;
+}
+.background {
+  background: url(milky-way-starry-sky-night-sky-star-956981.jpeg) no-repeat;
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+.Navbar a {
+  position: relative;
+  font-size: 16px;
+  color: #e4e4e4;
+  text-decoration: none;
+  margin-right: 30px;
+  font-weight: 500;
+}
+.Navbar a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 2px;
+  background: #e4e4e4;
+  border-radius: 5px;
+  transition: 0.5s;
+  transform: translateY(10px);
+  opacity: 0;
+}
+.Navbar a:hover::after {
+  transform: translateY(0);
+  opacity: 1;
+}
+.Searchbar {
+  width: 0px;
+  height: 45px;
+  background: transparent;
+  border: 0px solid #e4e4e4;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: 0.5s;
+}
+.Searchbar.open {
+  width: 250px;
+  border: 2px solid #e4e4e4;
+  padding: 0 10px;
+  transition: 0.5s;
+  opacity: 1;
+}
+.Searchbar input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #e4e4e4;
+  padding: 0 15px;
+}
+.Searchbar input::placeholder {
+  color: #e4e4e4;
+}
+.Searchbar button {
+  width: 40px;
+  height: 100%;
+  background: transparent;
+  color: #e4e4e4;
+  border: none;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.Searchbar button i {
+  width: 100%;
+}
+.container {
+  position: absolute;
+  width: 75%;
+  height: 470px;
+  background: url(milky-way-starry-sky-night-sky-star-956981.jpeg) no-repeat;
+  background-size: cover;
+  background-position: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.container .content {
+  position: absolute;
+  width: 58%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: transparent;
+  padding: 80px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.content .logo {
+  font-size: 30px;
+}
+.text-sci h2 {
+  font-size: 40px;
+  line-height: 1x;
+}
+.text-sci h2 span {
+  font-size: 25px;
+}
+.text-sci p {
+  font-size: 16px;
+  margin: 20px 0;
+}
+.logreg-box {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: calc(100% - 58%);
+  height: 100%;
+  overflow: hidden;
+}
+.social-icons a i {
+  color: white;
+  margin-right: 20px;
+  transition: 0.5s ease;
+  font-size: 20px;
+}
+.social-icons a i:hover {
+  transform: scale(1.2);
+}
+.logreg-box .form-box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: white;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.form-box h2 {
+  font-style: 32px;
+  text-align: center;
+}
+.form-box .input-box {
+  position: relative;
+  width: 340px;
+  height: 50px;
+  border-bottom: 2px solid white;
+  margin: 30px 0;
+}
+.form-box .input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: white;
+  font-weight: 500;
+  padding-right: 28px;
+}
+.form-box .input-box label {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: 500;
+  transition: 0.5s ease;
+}
+.input-box .icon {
+  position: absolute;
+  right: 0;
+  top: 13px;
+  font-size: 20px;
+  color: white;
+}
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+  top: -5px;
+}
+.Remember-forgot {
+  font-size: 14.5px;
+  font-weight: 500;
+  margin: -15px 0 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.Remember-forgot label input {
+  accent-color: #e4e4ee;
+  border: none;
+  margin-right: 3px;
+  outline: none;
+  padding-top: 5px;
+}
+.Remember-forgot label {
+  display: flex;
+  align-items: center;
+}
+.Remember-forgot a {
+  color: white;
+  text-decoration: none;
+}
+.Remember-forgot a:hover {
+  text-decoration: underline;
+}
+.btn {
+  position: relative;
+  width: 100%;
+  height: 45px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  /* background: #c4103d; */
+  background: rgb(16, 16, 99);
+  cursor: pointer;
+  color: #e4e4e4;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.btn::before {
+  content: " ";
+  position: absolute;
+  background-color: white;
+  height: 100%;
+  width: 0;
+  left: 0;
+  border-radius: 5px;
+  margin-top: -12.5px;
+  transition: 0.5s ease;
+  opacity: 0.2;
+}
+.btn:hover:before {
+  width: 100%;
+}
+.login-register {
+  text-align: center;
+  margin: 15px 0 0;
+  font-size: 14.5px;
+  font-weight: 500;
+}
+.login-register .login-Link {
+  color: #e4e4e4;
+  text-decoration: none;
+  font-weight: 600;
+}
+.login-register .login-Link:hover {
+  text-decoration: underline;
+}
+.login-register .register-Link {
+  color: #e4e4e4;
+  text-decoration: none;
+  font-weight: 600;
+}
+.login-register .register-Link:hover {
+  text-decoration: underline;
+}
+.logreg-box .form-box.register {
+  transform: translateX(1000px);
+}
+.logreg-box .form-box.login {
+  transform: translateX(0);
+  transition: transform 0.6s ease;
+  transition-delay: 0.7s;
+}
+.logreg-box.active .form-box.login {
+  transform: translateX(1000px);
+  transition-delay: 0s;
+}
+.logreg-box .form-box.register {
+  transform: translateX(1000px);
+  transition: transform 0.6s ease;
+}
+.logreg-box.active .form-box.register {
+  transform: translateX(0);
+  transition-delay: 0.7s;
+}
+
+/* ========== 1️⃣ MOBILE (≤ 767px) ========== */
+@media (max-width: 767px) {
+  body {
+    background-color: lightblue; /* ví dụ */
+  }
+  .container {
+    flex-direction: column; /* chuyển thành cột */
+    width: 90%;
+    height: auto;
+    padding: 20px;
+  }
+  .container .content,
+  .logreg-box {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+  .container .content {
+    order: 2; /* đặt nội dung sau form đăng nhập/đăng ký */
+  }
+  .logreg-box {
+    order: 1; /* đặt form đăng nhập/đăng ký lên trên */
+    margin-bottom: 20px;
+  }
+}
+
+/* ========== 2️⃣ TABLET (768px – 1024px) ========== */
+@media (min-width: 768px) and (max-width: 1024px) {
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .Header {
+      padding: 20px 8%;
+    }
+
+    .container {
+      width: 90%;
+      height: auto;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .text-sci h2 {
+      font-size: 32px;
+    }
+
+    .logreg-box .form-box .input-box {
+      width: 280px;
+    }
+  }
+}
+
+/* ========== 3️⃣ DESKTOP (≥ 1024px) ========== */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
